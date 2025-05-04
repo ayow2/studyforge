@@ -1,0 +1,21 @@
+const API_BASE = 'http://localhost:3001/api';
+
+export const createUser = async (user) =>
+  fetch(`${API_BASE}/users`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user)
+  });
+
+export const createAssignment = async (assignment) =>
+  fetch(`${API_BASE}/assignments`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(assignment)
+  });
+
+  export const getAssignments = async (user_id) => {
+    const res = await fetch(`${API_BASE}/assignments/${user_id}`);
+    return res.json();
+  };
+  
