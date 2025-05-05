@@ -1,6 +1,22 @@
 import { useEffect, useState } from 'react';
 import { API_BASE } from '../services/api';
 
+/**
+ * ScorePanel component displays the user's score and streak.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.userId - The ID of the user whose score and streak are displayed.
+ *
+ * @returns {JSX.Element} A styled panel showing the user's score and streak.
+ *
+ * @example
+ * <ScorePanel userId="12345" />
+ *
+ * @remarks
+ * This component fetches the user's score and streak from the API when the component mounts
+ * or when the `userId` prop changes. The fetched data is displayed in a styled panel.
+ */
 export default function ScorePanel({ userId }) {
   const [score, setScore] = useState({ points: 0, streak: 0 });
 

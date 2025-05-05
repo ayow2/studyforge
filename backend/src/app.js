@@ -16,6 +16,16 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
+/**
+ * Initializes the application by setting up the database, creating necessary tables,
+ * and configuring API routes. Starts the server on the specified port.
+ *
+ * @async
+ * @function bootstrap
+ * @returns {Promise<void>} Resolves when the application is fully initialized and the server is running.
+ *
+ * @throws {Error} Throws an error if database initialization or table creation fails.
+ */
 const bootstrap = async () => {
   const db = await initDB();
   await createUsersTable(db);

@@ -1,6 +1,21 @@
 import { useState } from 'react';
 import { API_BASE } from '../services/api';
 
+/**
+ * RegisterForm Component
+ *
+ * A React component that renders a registration form for users to create an account.
+ * It handles form submission, input changes, and displays success or error messages.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Function} [props.onRegistered] - Callback function triggered after successful registration.
+ *
+ * @returns {JSX.Element} The rendered registration form component.
+ *
+ * @example
+ * <RegisterForm onRegistered={() => console.log('User registered!')} />
+ */
 export default function RegisterForm({ onRegistered }) {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState(null);

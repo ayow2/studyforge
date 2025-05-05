@@ -5,6 +5,20 @@ import { createUser, findUserByName, resetUserPassword } from '../models/userMod
 
 const SECRET = 'your-secret-key';
 
+/**
+ * Defines user-related routes for the application.
+ *
+ * @param {Object} db - The database connection object.
+ * @returns {import('express').Router} An Express router with user-related routes.
+ *
+ * @route POST / - Creates a new user with the provided name and email.
+ * @route GET /:id/grade-average - Retrieves the average grade for a user's assignments.
+ * @route GET /:id/score - Retrieves the score and streak for a user.
+ * @route POST /register - Registers a new user with name, email, and password.
+ * @route POST /login - Authenticates a user and returns a JWT token.
+ * @route POST /reset-password - Resets a user's password with the provided name, email, and new password.
+ * @route POST /logout - Logs out the user (client should discard the token).
+ */
 const userRoutes = (db) => {
   const router = express.Router();
 

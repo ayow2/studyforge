@@ -16,6 +16,17 @@ export const calculatePointsForCompletion = (dueDateStr) => {
     return 0;
   };
   
+  /**
+   * Updates the user's streak based on their last active date.
+   *
+   * @param {string} lastActive - The date the user was last active, in string format (e.g., "Mon Oct 09 2023").
+   * @returns {Object} An object containing:
+   *   - `updatedStreak` (number|string): The updated streak value. It can be:
+   *       - `1` if the streak is reset or started.
+   *       - `'increment'` if the streak is incremented.
+   *       - `'same'` if the streak remains unchanged.
+   *   - `newLastActive` (string): The updated last active date, in string format.
+   */
   export const updateStreak = (lastActive) => {
     const today = new Date().toDateString();
     const yesterday = new Date(Date.now() - 86400000).toDateString();

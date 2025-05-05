@@ -1,6 +1,24 @@
 import { API_BASE } from '../services/api';
 import { useState } from 'react';
 
+/**
+ * LoginForm component handles user login functionality.
+ *
+ * @component
+ * @param {Object} props - Component props.
+ * @param {Function} props.onLogin - Callback function to be called after successful login.
+ *
+ * @returns {JSX.Element} A form for user login.
+ *
+ * @example
+ * <LoginForm onLogin={() => console.log('User logged in')} />
+ *
+ * @remarks
+ * - The component uses `useState` to manage form state and error messages.
+ * - It sends a POST request to the login API endpoint with the form data.
+ * - On successful login, it stores the token in localStorage and calls the `onLogin` callback.
+ * - Displays an error message if the login fails.
+ */
 export default function LoginForm({ onLogin }) {
   const [form, setForm] = useState({ name: '', password: '' });
   const [error, setError] = useState(null);

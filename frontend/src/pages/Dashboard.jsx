@@ -5,6 +5,16 @@ import GradeAverage from '../components/GradeAverage';
 import ScorePanel from '../components/ScorePanel';
 import { getAssignments } from '../services/api';
 
+/**
+ * Dashboard component for displaying user-specific data and managing assignments.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.user - The currently logged-in user object.
+ * @param {string} props.userId - The unique identifier for the logged-in user.
+ * @param {Function} props.onLogout - Callback function to handle user logout.
+ *
+ * @returns {JSX.Element} The rendered Dashboard component.
+ */
 export default function Dashboard({ user, userId, onLogout }) {
   const [assignments, setAssignments] = useState([]);
   const [editingAssignment, setEditingAssignment] = useState(null);

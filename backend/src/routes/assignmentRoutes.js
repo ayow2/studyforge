@@ -5,6 +5,40 @@ import { updateAssignment, deleteAssignment } from '../models/assignmentModel.js
 import { authenticateToken } from '../middleware/auth.js';
 
 
+/**
+ * Defines routes for managing assignments, including creating, retrieving, updating, 
+ * toggling completion status, grading, and deleting assignments. Also handles scoring 
+ * and streak updates based on assignment completion and grading.
+ *
+ * @param {Object} db - The database instance for executing queries.
+ * @returns {import('express').Router} - The configured Express router for assignment routes.
+ *
+ * Routes:
+ * - POST /: Creates a new assignment.
+ *   - Requires: `user_id`, `title`, `due_date` in the request body.
+ *   - Middleware: `authenticateToken`.
+ *
+ * - GET /:user_id: Retrieves all assignments for a specific user, ordered by due date.
+ *   - Requires: `user_id` as a URL parameter.
+ *   - Middleware: `authenticateToken`.
+ *
+ * - PATCH /:id/toggle: Toggles the completion status of an assignment.
+ *   - Requires: `id` as a URL parameter.
+ *   - Middleware: `authenticateToken`.
+ *   - Updates user scores and streaks if the assignment is marked as completed.
+ *
+ * - PATCH /:id/grade: Updates the grade of an assignment.
+ *   - Requires: `id` as a URL parameter, `grade` in the request body.
+ *   - Middleware: `authenticateToken`.
+ *   - Updates user scores and streaks based on the grade.
+ *
+ * - PUT /:id: Updates an assignment with new data.
+ *   - Requires: `id` as a URL parameter, updated data in the request body.
+ *   - Middleware: `authenticateToken`.
+ *
+ * - DELETE /:id: Deletes an assignment.
+ *   - Requires: `id` as a URL parameter.
+ */
 const assignmentRoutes = (db) => {
   const router = express.Router();
 

@@ -1,6 +1,27 @@
 import { useState, useEffect } from 'react';
 import { createAssignment, updateAssignment } from '../services/api';
 
+/**
+ * AssignmentForm Component
+ *
+ * A form component for creating or updating assignments. It allows users to input
+ * assignment details such as title, due date, grade, and completion status.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object|null} [props.initialData=null] - Initial data for the form, used for editing an existing assignment.
+ * @param {Function} [props.onSave=() => {}] - Callback function triggered after the form is successfully submitted.
+ * @param {number} props.userId - The ID of the user associated with the assignment.
+ *
+ * @returns {JSX.Element} The rendered AssignmentForm component.
+ *
+ * @example
+ * <AssignmentForm
+ *   initialData={{ id: 1, title: 'Math Homework', due_date: '2023-10-01', completed: 1, grade: 95 }}
+ *   onSave={() => console.log('Assignment saved!')}
+ *   userId={123}
+ * />
+ */
 export default function AssignmentForm({ initialData = null, onSave = () => {}, userId }) {
   const [form, setForm] = useState({
     user_id: userId,  // ← dynamically assigned!  
