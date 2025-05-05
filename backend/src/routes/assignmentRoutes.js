@@ -1,4 +1,6 @@
 import express from 'express';
+import { calculatePointsForCompletion, updateStreak } from '../utils/scoreUtils.js';
+import { initDB } from '../../db/database.js';
 
 const assignmentRoutes = (db) => {
   const router = express.Router();
@@ -27,45 +29,46 @@ const assignmentRoutes = (db) => {
     }
   });
   
-  router.patch('/:id/toggle', async (req, res) => {
-    const { id } = req.params;
-    try {
-      const assignment = await db.get('SELECT completed FROM assignments WHERE id = ?', id);
-      const newValue = assignment.completed ? 0 : 1;
-  
-      await db.run('UPDATE assignments SET completed = ? WHERE id = ?', newValue, id);
 
-      if (newValue === 1) {
-        const points = calculatePointsForCompletion(assignment.due_date);
-        const scoreRow = await db.get('SELECT * FROM scores WHERE user_id = ?', assignment.user_id);
-      
-        const today = new Date().toDateString();
-        const { updatedStreak, newLastActive } = updateStreak(scoreRow?.last_active);
-      
-        let newPoints = (scoreRow?.points || 0) + points;
-        let newStreak = 1;
-      
-        if (updatedStreak === 'increment') newStreak = (scoreRow?.streak || 0) + 1;
-        else if (updatedStreak === 'same') newStreak = scoreRow?.streak || 1;
-      
-        if (scoreRow) {
-          await db.run(
-            'UPDATE scores SET points = ?, streak = ?, last_active = ? WHERE user_id = ?',
-            newPoints, newStreak, newLastActive, assignment.user_id
-          );
-        } else {
-          await db.run(
-            'INSERT INTO scores (user_id, points, streak, last_active) VALUES (?, ?, ?, ?)',
-            assignment.user_id, newPoints, newStreak, newLastActive
-          );
-        }
+router.patch('/:id/toggle', async (req, res) => {
+  const db = await initDB();
+  const { id } = req.params;
+
+  try {
+    const assignment = await db.get('SELECT * FROM assignments WHERE id = ?', id);
+    const newValue = assignment.completed ? 0 : 1;
+
+    await db.run('UPDATE assignments SET completed = ? WHERE id = ?', newValue, id);
+
+    if (newValue === 1) {
+      const points = calculatePointsForCompletion(assignment.due_date);
+      const scoreRow = await db.get('SELECT * FROM scores WHERE user_id = ?', assignment.user_id);
+      const { updatedStreak, newLastActive } = updateStreak(scoreRow?.last_active);
+      let newPoints = (scoreRow?.points || 0) + points;
+      let newStreak = 1;
+
+      if (updatedStreak === 'increment') newStreak = (scoreRow?.streak || 0) + 1;
+      else if (updatedStreak === 'same') newStreak = scoreRow?.streak || 1;
+
+      if (scoreRow) {
+        await db.run(
+          'UPDATE scores SET points = ?, streak = ?, last_active = ? WHERE user_id = ?',
+          newPoints, newStreak, newLastActive, assignment.user_id
+        );
+      } else {
+        await db.run(
+          'INSERT INTO scores (user_id, points, streak, last_active) VALUES (?, ?, ?, ?)',
+          assignment.user_id, newPoints, newStreak, newLastActive
+        );
       }
-      
-      res.json({ updated: true, completed: newValue });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
     }
-  });
+
+    res.json({ updated: true, completed: newValue });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
   
   router.patch('/:id/grade', async (req, res) => {
     const { id } = req.params;
@@ -77,11 +80,9 @@ const assignmentRoutes = (db) => {
         grade,
         id
       );
-      
+
       const assignment = await db.get('SELECT * FROM assignments WHERE id = ?', id);
       const points = calculatePointsForGrade(grade);
-      const today = new Date().toDateString();
-
       const scoreRow = await db.get('SELECT * FROM scores WHERE user_id = ?', assignment.user_id);
       const { updatedStreak, newLastActive } = updateStreak(scoreRow?.last_active);
 
@@ -103,6 +104,10 @@ const assignmentRoutes = (db) => {
         );
       }
 
+      console.log('Assignment:', assignment);
+console.log('Points earned:', points);
+console.log('Existing score:', scoreRow);
+
       res.json({ updated: true });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -112,5 +117,21 @@ const assignmentRoutes = (db) => {
 
   return router;
 };
+
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, due_date, grade } = req.body;
+
+  try {
+    await db.run(
+      'UPDATE assignments SET title = ?, due_date = ?, grade = ? WHERE id = ?',
+      title, due_date, grade, id
+    );
+    res.json({ updated: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 export default assignmentRoutes;
