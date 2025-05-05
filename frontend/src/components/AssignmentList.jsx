@@ -7,8 +7,6 @@ import {
 } from '../services/api';
 import AssignmentForm from './AssignmentForm';
 
-import AssignmentForm from './AssignmentForm';
-
 export default function AssignmentList({ assignments, onReload, onEdit, editingAssignment, onSave }) {
   return (
     <div className="space-y-6 mt-8">
