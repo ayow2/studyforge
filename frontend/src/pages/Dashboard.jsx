@@ -8,7 +8,6 @@ import { getAssignments } from '../services/api';
 
 export default function Dashboard({ user, userId, onLogout }) {
 
-  const userId = user?.id;
   const [assignments, setAssignments] = useState([]);
 
   const loadAssignments = async () => {
