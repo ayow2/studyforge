@@ -27,6 +27,19 @@ const assignmentRoutes = (db) => {
     }
   });
   
+  router.patch('/:id/toggle', async (req, res) => {
+    const { id } = req.params;
+    try {
+      const assignment = await db.get('SELECT completed FROM assignments WHERE id = ?', id);
+      const newValue = assignment.completed ? 0 : 1;
+  
+      await db.run('UPDATE assignments SET completed = ? WHERE id = ?', newValue, id);
+      res.json({ updated: true, completed: newValue });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+  
 
   return router;
 };

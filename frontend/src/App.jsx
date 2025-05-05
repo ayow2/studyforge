@@ -1,8 +1,8 @@
-import Dashboard from './pages/Dashboard.jsx';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
-    <main className="min-h-screen bg-gray-50 p-4">
+    <main className="min-h-screen bg-gray-100 text-gray-900 p-6">
       <Dashboard />
     </main>
   );

@@ -19,3 +19,10 @@ export const createAssignment = async (assignment) =>
     return res.json();
   };
   
+  export const toggleAssignment = async (assignmentId) => {
+    const res = await fetch(`${API_BASE}/assignments/${assignmentId}/toggle`, {
+      method: 'PATCH'
+    });
+    return res.json();
+  };
+  

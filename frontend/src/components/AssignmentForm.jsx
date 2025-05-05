@@ -15,14 +15,31 @@ export default function AssignmentForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-white rounded shadow space-y-4">
-      <input name="title" value={form.title} onChange={handleChange}
-        placeholder="Assignment Title" className="input" required />
-      <input name="due_date" type="date" value={form.due_date} onChange={handleChange}
-        className="input" required />
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-        Add Assignment
-      </button>
+    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow space-y-4">
+      <div className="flex gap-2 items-center">
+        <input
+          name="title"
+          value={form.title}
+          onChange={handleChange}
+          placeholder="Assignment Title"
+          className="px-3 py-2 border border-gray-300 rounded w-1/2"
+          required
+        />
+        <input
+          name="due_date"
+          type="date"
+          value={form.due_date}
+          onChange={handleChange}
+          className="px-3 py-2 border border-gray-300 rounded"
+          required
+        />
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+        >
+          Add Assignment
+        </button>
+      </div>
     </form>
   );
 }
