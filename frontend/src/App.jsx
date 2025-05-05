@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import Dashboard from './pages/Dashboard';
 import LoginForm from './components/LoginForm';
-import { jwtDecode } from 'jwt-decode';
+import RegisterForm from './components/RegisterForm';
 
 function App() {
   const [userId, setUserId] = useState(null);
+  const [showRegister, setShowRegister] = useState(false);
 
   useEffect(() => {
     try {
@@ -13,9 +15,8 @@ function App() {
         const decoded = jwtDecode(token);
         setUserId(decoded.id);
       }
-    } catch (err) {
-      console.error("Invalid token:", err.message);
-      localStorage.removeItem('token'); // prevent repeated crashes
+    } catch {
+      localStorage.removeItem('token');
     }
   }, []);
 
@@ -30,11 +31,33 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setUserId(null);
-  };  
+  };
 
   return (
     <main className="min-h-screen bg-gray-100 text-gray-900 p-6">
-      {userId ? <Dashboard userId={userId} onLogout={handleLogout} /> : <LoginForm onLogin={handleLogin} />}
+      {userId ? (
+        <Dashboard userId={userId} onLogout={handleLogout} />
+      ) : showRegister ? (
+        <>
+          <RegisterForm onRegistered={() => setShowRegister(false)} />
+          <p className="text-center mt-4 text-sm">
+            Already have an account?{' '}
+            <button onClick={() => setShowRegister(false)} className="text-indigo-600 underline">
+              Log in here
+            </button>
+          </p>
+        </>
+      ) : (
+        <>
+          <LoginForm onLogin={handleLogin} />
+          <p className="text-center mt-4 text-sm">
+            Don't have an account?{' '}
+            <button onClick={() => setShowRegister(true)} className="text-indigo-600 underline">
+              Register here
+            </button>
+          </p>
+        </>
+      )}
     </main>
   );
 }
