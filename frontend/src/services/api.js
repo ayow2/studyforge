@@ -1,4 +1,4 @@
-const API_BASE = 'https://studyforge-cb7g.onrender.com/';
+export const API_BASE = 'https://studyforge-cb7g.onrender.com/';
 
 const getToken = () => localStorage.getItem('token');
 
