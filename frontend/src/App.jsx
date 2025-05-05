@@ -7,18 +7,19 @@ import RegisterForm from './components/RegisterForm';
 function App() {
   const [userId, setUserId] = useState(null);
   const [showRegister, setShowRegister] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        const decoded = jwtDecode(token);
-        setUserId(decoded.id);
+        const decoded = jwtDecode(token); // contains id, name
+        setUser(decoded);
       }
     } catch {
       localStorage.removeItem('token');
     }
-  }, []);
+  });
 
   const handleLogin = () => {
     const token = localStorage.getItem('token');
@@ -36,7 +37,7 @@ function App() {
   return (
     <main className="min-h-screen bg-gray-100 text-gray-900 p-6">
       {userId ? (
-        <Dashboard userId={userId} onLogout={handleLogout} />
+        <Dashboard user={user} userId={userId} onLogout={handleLogout} />
       ) : showRegister ? (
         <>
           <RegisterForm onRegistered={() => setShowRegister(false)} />

@@ -5,7 +5,7 @@ import GradeAverage from '../components/GradeAverage';
 import ScorePanel from '../components/ScorePanel';
 
 
-export default function Dashboard({ userId, onLogout }) {
+export default function Dashboard({ user, userId, onLogout }) {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative">
       <button
@@ -14,6 +14,11 @@ export default function Dashboard({ userId, onLogout }) {
       >
         Logout
       </button>
+
+      <p className="text-center text-sm text-gray-500 mb-4">
+        Logged in as <span className="font-semibold">{user?.name}</span>
+      </p>
+
 
       <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-8">
         <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">

@@ -1,12 +1,106 @@
-# React + Vite
+## 📄 `README.md` – Full Content
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# StudyForge
 
-Currently, two official plugins are available:
+_A college-level AI-generated productivity app designed to track assignments, grades, and gamify academic success._
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📌 Project Overview
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**StudyForge** is an intelligent academic dashboard that helps students stay organized and motivated. It enables students to track assignments, input grades, monitor streaks, and earn scores based on academic performance and punctuality — all in a clean, responsive UI.
+
+---
+
+## 🔧 Features
+
+- ✅ User Registration & Authentication (secured data per student)
+- ✅ Assignment input & tracking (title, due date, completion)
+- ✅ Toggle completion with point rewards (based on timing)
+- ✅ Manual grade entry for each assignment
+- ✅ Dynamic grade average calculation
+- ✅ Score and daily streak tracking
+- ✅ Styled dashboard using Tailwind CSS
+
+---
+
+## ⚙️ System Architecture
+
+![System Diagram](studyforge_architecture.png)
+
+| Layer     | Tech                          |
+|-----------|-------------------------------|
+| Frontend  | React, Vite, Tailwind CSS     |
+| Backend   | Node.js, Express              |
+| Database  | SQLite (per-user data)        |
+| Auth      | Basic session/token logic (local) |
+
+---
+
+## 🚀 Getting Started
+
+### 🔧 Prerequisites
+- Node.js v18+
+- npm or yarn
+
+### 📦 Install Dependencies
+
+```bash
+# Frontend
+cd frontend
+npm install
+
+# Backend
+cd ../backend
+npm install
+````
+
+### ▶️ Run Locally
+
+```bash
+# In one terminal (backend)
+cd backend
+npm run dev
+
+# In another terminal (frontend)
+cd frontend
+npm run dev
+```
+
+Frontend will be at `http://localhost:5173`, backend at `http://localhost:3001`.
+
+---
+
+## 📂 Folder Structure
+
+studyforge/
+├── backend/
+│   ├── src/
+│   │   ├── routes/
+│   │   ├── models/
+│   │   ├── utils/
+│   │   └── app.js
+│   └── db/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── services/
+└── README.md
+
+---
+
+## 🛡 License
+
+This project is open for educational use.
+
+---
+
+> Made with 🧠 by AI, deployed by students.
+
+```
+
+---
+
+Would you like this in a downloadable `.md` file, or pushed directly into your repo structure?
+```
