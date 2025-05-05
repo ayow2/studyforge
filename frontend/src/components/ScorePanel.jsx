@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import { API_BASE } from '../services/api';
 
 export default function ScorePanel({ userId }) {
   const [score, setScore] = useState({ points: 0, streak: 0 });
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/users/${userId}/score`)
+    fetch(`${API_BASE}/users/${userId}/score`)
       .then(res => res.json())
       .then(setScore)
       .catch(console.error);
