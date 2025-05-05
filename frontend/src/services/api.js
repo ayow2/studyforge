@@ -1,3 +1,4 @@
+
 const API_BASE = 'http://localhost:3001/api';
 
 export const createUser = async (user) =>
@@ -40,12 +41,17 @@ export const createAssignment = async (assignment) =>
     return res.json();
   };
   
-  export const updateAssignment = async (id, data) => {
-    const res = await fetch(`${API_BASE}/assignments/${id}`, {
-      method: 'PATCH',
+  export const updateAssignment = async (id, assignment) => {
+    await fetch(`${API_BASE}/assignments/${id}`, {
+      method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(assignment)
     });
-    return res.json();
+  };
+  
+  export const deleteAssignment = async (id) => {
+    await fetch(`${API_BASE}/assignments/${id}`, {
+      method: 'DELETE'
+    });
   };
   

@@ -1,6 +1,7 @@
 import express from 'express';
 import { calculatePointsForCompletion, updateStreak } from '../utils/scoreUtils.js';
 import { initDB } from '../../db/database.js';
+import { updateAssignment, deleteAssignment } from '../models/assignmentModel.js';
 
 const assignmentRoutes = (db) => {
   const router = express.Router();
@@ -105,10 +106,31 @@ router.patch('/:id/toggle', async (req, res) => {
       }
 
       console.log('Assignment:', assignment);
-console.log('Points earned:', points);
-console.log('Existing score:', scoreRow);
+      console.log('Points earned:', points);
+      console.log('Existing score:', scoreRow);
 
       res.json({ updated: true });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const data = req.body;
+    try {
+      await updateAssignment(db, id, data);
+      res.json({ message: 'Assignment updated' });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+  
+  router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+      await deleteAssignment(db, id);
+      res.json({ message: 'Assignment deleted' });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -118,20 +140,6 @@ console.log('Existing score:', scoreRow);
   return router;
 };
 
-router.patch('/:id', async (req, res) => {
-  const { id } = req.params;
-  const { title, due_date, grade } = req.body;
-
-  try {
-    await db.run(
-      'UPDATE assignments SET title = ?, due_date = ?, grade = ? WHERE id = ?',
-      title, due_date, grade, id
-    );
-    res.json({ updated: true });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 
 
 export default assignmentRoutes;
