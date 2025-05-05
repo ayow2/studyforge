@@ -8,8 +8,6 @@ import userRoutes from './routes/userRoutes.js';
 import assignmentRoutes from './routes/assignmentRoutes.js';
 import cors from 'cors';
 
-// Allow requests from frontend
-
 
 dotenv.config();
 const app = express();
