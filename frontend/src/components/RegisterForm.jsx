@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { API_BASE } from '../services/config';
 
 export default function RegisterForm({ onRegistered }) {
   const [form, setForm] = useState({ name: '', email: '', password: '' });
@@ -15,7 +16,7 @@ export default function RegisterForm({ onRegistered }) {
     setSuccess(false);
 
     try {
-      const res = await fetch('http://localhost:3001/api/users/register', {
+      const res = await fetch('${API_BASE}/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
