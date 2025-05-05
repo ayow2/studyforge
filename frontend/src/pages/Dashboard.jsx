@@ -1,11 +1,33 @@
-
 import AssignmentForm from '../components/AssignmentForm.jsx';
 import AssignmentList from '../components/AssignmentList.jsx';
 import GradeAverage from '../components/GradeAverage';
 import ScorePanel from '../components/ScorePanel';
+import { useState, useEffect } from 'react';
+import { getAssignments } from '../services/api';
 
 
 export default function Dashboard({ user, userId, onLogout }) {
+
+  const userId = user?.id;
+  const [assignments, setAssignments] = useState([]);
+
+  const loadAssignments = async () => {
+    const data = await getAssignments(userId);
+    setAssignments(data);
+  };
+
+  useEffect(() => {
+    if (userId) loadAssignments();
+  }, [userId]);
+
+  const handleEdit = (assignment) => setEditingAssignment(assignment);
+
+  const handleSave = () => {
+    setEditingAssignment(null);
+    loadAssignments();
+  };
+
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative">
       <button
@@ -25,9 +47,15 @@ export default function Dashboard({ user, userId, onLogout }) {
           📘 StudyForge Dashboard
         </h1>
         <div className="space-y-10">
-          <AssignmentForm userId={userId} onSave={() => {}} />
+          <AssignmentForm userId={userId} onSave={loadAssignments} />
           <div className="border-t pt-6">
-            <AssignmentList userId={userId} />
+            <AssignmentList
+              assignments={assignments}
+              onReload={loadAssignments}
+              editingAssignment={editingAssignment}
+              onEdit={handleEdit}
+              onSave={handleSave}
+            />
             <ScorePanel userId={userId} />
             <GradeAverage userId={userId} />
           </div>
