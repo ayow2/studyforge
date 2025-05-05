@@ -96,6 +96,11 @@ const userRoutes = (db) => {
     }
   });
 
+  router.post('/logout', (req, res) => {
+    // For now: no token blacklisting — just respond.
+    res.json({ message: 'Logged out (client should discard token)' });
+  });
+  
 
   /*
   router.post('/login', async (req, res) => {

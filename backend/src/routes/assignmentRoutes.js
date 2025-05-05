@@ -2,11 +2,13 @@ import express from 'express';
 import { calculatePointsForCompletion, updateStreak } from '../utils/scoreUtils.js';
 import { initDB } from '../../db/database.js';
 import { updateAssignment, deleteAssignment } from '../models/assignmentModel.js';
+import { authenticateToken } from '../middleware/auth.js';
+
 
 const assignmentRoutes = (db) => {
   const router = express.Router();
 
-  router.post('/', async (req, res) => {
+  router.post('/', authenticateToken, async (req, res) => {
     const { user_id, title, due_date } = req.body;
     try {
       const stmt = await db.prepare('INSERT INTO assignments (user_id, title, due_date) VALUES (?, ?, ?)');
@@ -17,7 +19,7 @@ const assignmentRoutes = (db) => {
     }
   });
 
-  router.get('/:user_id', async (req, res) => {
+  router.get('/:user_id', authenticateToken, async (req, res) => {
     const { user_id } = req.params;
     try {
       const assignments = await db.all(
@@ -31,7 +33,7 @@ const assignmentRoutes = (db) => {
   });
   
 
-router.patch('/:id/toggle', async (req, res) => {
+router.patch('/:id/toggle', authenticateToken, async (req, res) => {
   const db = await initDB();
   const { id } = req.params;
 
@@ -71,7 +73,7 @@ router.patch('/:id/toggle', async (req, res) => {
 });
 
   
-  router.patch('/:id/grade', async (req, res) => {
+  router.patch('/:id/grade', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { grade } = req.body;
   
@@ -115,7 +117,8 @@ router.patch('/:id/toggle', async (req, res) => {
     }
   });
 
-  router.put('/:id', async (req, res) => {
+
+  router.put('/:id', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const data = req.body;
     try {

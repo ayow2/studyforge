@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { createAssignment, updateAssignment } from '../services/api';
 
-export default function AssignmentForm({ initialData = null, onSave = () => {} }) {
+export default function AssignmentForm({ initialData = null, onSave = () => {}, userId }) {
   const [form, setForm] = useState({
-    user_id: 1,
+    user_id: userId,  // ← dynamically assigned!  
     title: '',
     due_date: '',
     completed: 0,
@@ -30,7 +30,7 @@ export default function AssignmentForm({ initialData = null, onSave = () => {} }
       await createAssignment(form);
     }
     onSave();
-    setForm({ user_id: 1, title: '', due_date: '', completed: 0, grade: null });
+    setForm({ user_id: userId, title: '', due_date: '', completed: 0, grade: null });
   };
 
   return (
