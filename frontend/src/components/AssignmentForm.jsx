@@ -15,14 +15,17 @@ export default function AssignmentForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow space-y-4">
-      <div className="flex gap-2 items-center">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white p-6 rounded-xl shadow-md border border-gray-200 space-y-4"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <input
           name="title"
           value={form.title}
           onChange={handleChange}
           placeholder="Assignment Title"
-          className="px-3 py-2 border border-gray-300 rounded w-1/2"
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
           required
         />
         <input
@@ -30,12 +33,12 @@ export default function AssignmentForm() {
           type="date"
           value={form.due_date}
           onChange={handleChange}
-          className="px-3 py-2 border border-gray-300 rounded"
+          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500"
           required
         />
         <button
           type="submit"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg shadow transition"
         >
           Add Assignment
         </button>

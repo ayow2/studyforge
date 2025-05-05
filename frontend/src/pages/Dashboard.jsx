@@ -5,10 +5,18 @@ export default function Dashboard() {
   const userId = 1; // placeholder
 
   return (
-    <div className="max-w-2xl mx-auto mt-10">
-      <h1 className="text-3xl font-bold mb-6">StudyForge Dashboard</h1>
-      <AssignmentForm />
-      <AssignmentList userId={userId} />
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-2xl p-8">
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-8 text-center">
+          📘 StudyForge Dashboard
+        </h1>
+        <div className="space-y-10">
+          <AssignmentForm />
+          <div className="border-t pt-6">
+            <AssignmentList userId={userId} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

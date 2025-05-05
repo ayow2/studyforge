@@ -17,32 +17,51 @@ export default function AssignmentList({ userId }) {
     loadAssignments();
   };
 
-  const isOverdue = (due) => new Date(due) < new Date();
+  const isOverdue = (dueDateStr, completed) => {
+    const dueDate = new Date(dueDateStr);
+    const today = new Date();
+    dueDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    return !completed && dueDate < today;
+  };
 
   return (
-    <div className="mt-6 bg-white rounded shadow p-4">
-      <h2 className="text-xl font-semibold mb-4">Your Assignments</h2>
-      {assignments.length === 0 && <p>No assignments yet.</p>}
-      <ul className="space-y-2">
-        {assignments.map(a => (
-          <li key={a.id} className={`p-3 rounded border flex justify-between items-center
-            ${isOverdue(a.due_date) && !a.completed ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}>
-            <div>
-              <div className="font-medium">{a.title}</div>
-              <div className="text-sm text-gray-600">
-                Due: {new Date(a.due_date).toLocaleDateString()}
-              </div>
-            </div>
-            <button
-              onClick={() => handleToggle(a.id)}
-              className={`px-3 py-1 rounded ${
-                a.completed ? 'bg-green-500 text-white' : 'bg-gray-200'
+    <div className="mt-8 space-y-4">
+      <h2 className="text-2xl font-semibold text-gray-800">Your Assignments</h2>
+      {assignments.length === 0 && (
+        <p className="text-gray-500 italic">No assignments yet. Add one above!</p>
+      )}
+      <ul className="space-y-3">
+        {assignments.map(a => {
+          const overdue = isOverdue(a.due_date, a.completed);
+          return (
+            <li
+              key={a.id}
+              className={`p-4 rounded-lg flex justify-between items-center transition ${
+                overdue
+                  ? 'border border-red-400 bg-red-100 text-red-800'
+                  : 'bg-white shadow border border-gray-200'
               }`}
             >
-              {a.completed ? '✓ Done' : 'Mark Done'}
-            </button>
-          </li>
-        ))}
+              <div>
+                <div className="font-semibold text-lg">{a.title}</div>
+                <div className="text-sm text-gray-600">
+                  Due: {new Date(a.due_date).toLocaleDateString()}
+                </div>
+              </div>
+              <button
+                onClick={() => handleToggle(a.id)}
+                className={`px-4 py-2 rounded-lg font-medium transition ${
+                  a.completed
+                    ? 'bg-green-500 text-white hover:bg-green-600'
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                }`}
+              >
+                {a.completed ? '✓ Done' : 'Mark Done'}
+              </button>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

@@ -1,13 +1,37 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full bg-gray-50">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
+    <title>StudyForge</title>
+
+    <!-- TailwindCSS via CDN (only if you're not using PostCSS build pipeline) -->
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body>
-    <div id="root"></div>
+  <body class="h-full text-gray-800 antialiased">
+    <div id="root" class="min-h-screen flex items-center justify-center"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+  <script>
+    // TailwindCSS config
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#3b82f6",
+            secondary: "#9333ea",
+            accent: "#fbbf24",
+          },
+        },
+      },
+    };
+  </script>
+  <script>
+    // Load the TailwindCSS styles
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css";
+    document.head.appendChild(link);
+  </script>
