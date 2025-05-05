@@ -26,3 +26,17 @@ export const createAssignment = async (assignment) =>
     return res.json();
   };
   
+  export const getGradeAverage = async (userId) => {
+    const res = await fetch(`${API_BASE}/users/${userId}/grade-average`);
+    return res.json();
+  };
+  
+  export const updateAssignmentGrade = async (id, grade) => {
+    const res = await fetch(`${API_BASE}/assignments/${id}/grade`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ grade })
+    });
+    return res.json();
+  };
+  

@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import { initDB } from '../db/database.js';
 import { createUsersTable } from './models/userModel.js';
 import { createAssignmentsTable } from './models/assignmentModel.js';
+import { createScoreTable } from './models/scoreModel.js';
 import userRoutes from './routes/userRoutes.js';
 import assignmentRoutes from './routes/assignmentRoutes.js';
 import cors from 'cors';
@@ -21,6 +22,7 @@ const bootstrap = async () => {
   const db = await initDB();
   await createUsersTable(db);
   await createAssignmentsTable(db);
+  await createScoreTable(db);
 
   app.locals.db = db;
 

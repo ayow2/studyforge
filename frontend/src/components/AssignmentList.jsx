@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAssignments, toggleAssignment } from '../services/api';
+import { getAssignments, toggleAssignment, updateAssignmentGrade } from '../services/api';
 
 export default function AssignmentList({ userId }) {
   const [assignments, setAssignments] = useState([]);
@@ -15,6 +15,14 @@ export default function AssignmentList({ userId }) {
   const handleToggle = async (id) => {
     await toggleAssignment(id);
     loadAssignments();
+  };
+
+  const handleGradeChange = async (id, value) => {
+    const grade = parseInt(value, 10);
+    if (!isNaN(grade) && grade >= 0 && grade <= 100) {
+      await updateAssignmentGrade(id, grade);
+      loadAssignments();
+    }
   };
 
   const isOverdue = (dueDateStr, completed) => {
@@ -49,16 +57,28 @@ export default function AssignmentList({ userId }) {
                   Due: {new Date(a.due_date).toLocaleDateString()}
                 </div>
               </div>
-              <button
-                onClick={() => handleToggle(a.id)}
-                className={`px-4 py-2 rounded-lg font-medium transition ${
-                  a.completed
-                    ? 'bg-green-500 text-white hover:bg-green-600'
-                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
-              >
-                {a.completed ? '✓ Done' : 'Mark Done'}
-              </button>
+              <div className="flex items-center gap-3">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={a.grade ?? ''}
+                  onChange={(e) => handleGradeChange(a.id, e.target.value)}
+                  className="w-20 px-2 py-1 border border-gray-300 rounded text-sm text-center"
+                  placeholder="%"
+                  title="Enter grade"
+                />
+                <button
+                  onClick={() => handleToggle(a.id)}
+                  className={`px-4 py-2 rounded-lg font-medium transition ${
+                    a.completed
+                      ? 'bg-green-500 text-white hover:bg-green-600'
+                      : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                  }`}
+                >
+                  {a.completed ? '✓ Done' : 'Mark Done'}
+                </button>
+              </div>
             </li>
           );
         })}

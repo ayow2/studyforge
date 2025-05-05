@@ -6,4 +6,7 @@ export const initDB = async () => {
     filename: './db/studyforge.sqlite',
     driver: sqlite3.Database
   });
+  
+  
+
 };
